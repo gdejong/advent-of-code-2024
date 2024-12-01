@@ -9,9 +9,19 @@ import (
 func TestPart1(t *testing.T) {
 	f := internal.Must(os.Open("test_input.txt"))
 
-	part1answer := part1(f)
+	answer := part1(f)
 
-	if part1answer != 11 {
-		t.Errorf("wrong answer, got: %d", part1answer)
+	if answer != 11 {
+		t.Errorf("wrong answer, got: %d", answer)
+	}
+}
+
+func TestPart2(t *testing.T) {
+	f := internal.Must(os.Open("test_input.txt"))
+
+	answer := part2(f)
+
+	if answer != 31 {
+		t.Errorf("wrong answer, got: %d", answer)
 	}
 }
