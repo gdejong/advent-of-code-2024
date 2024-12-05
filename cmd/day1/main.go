@@ -1,36 +1,59 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
+	"github.com/gdejong/advent-of-code-2024/internal/input"
 	"github.com/gdejong/advent-of-code-2024/internal/must"
-	"io"
-	"os"
 	"slices"
 )
 
 func main() {
-	f := must.NoError(os.Open("cmd/day1/real_input.txt"))
+	lines := input.Content("cmd/day1/real_input.txt")
 
-	part1answer := part1(f)
-	fmt.Println(part1answer)
+	fmt.Println(part1(lines))
 
-	// Reset the file so we can it again for part 2
-	must.NoError(f.Seek(0, io.SeekStart))
-
-	part2answer := part2(f)
-	fmt.Println(part2answer)
+	fmt.Println(part2(lines))
 }
 
-func part2(f *os.File) int {
-	s := bufio.NewScanner(f)
-
+func part1(lines []string) int {
 	var leftList []int
 	var rightList []int
 
-	for s.Scan() {
-		line := s.Text()
+	for _, line := range lines {
+		var leftNumber int
+		var rightNumber int
+		must.NoError(fmt.Sscanf(line, "%d %d", &leftNumber, &rightNumber))
+		leftList = append(leftList, leftNumber)
+		rightList = append(rightList, rightNumber)
+	}
 
+	slices.Sort(leftList)
+	slices.Sort(rightList)
+
+	if len(leftList) != len(rightList) {
+		panic("expected same length")
+	}
+
+	distanceSum := 0
+	for i := 0; i < len(leftList); i++ {
+		distance := leftList[i] - rightList[i]
+
+		// Take the absolute value
+		if distance < 0 {
+			distance = distance * -1
+		}
+
+		distanceSum += distance
+	}
+
+	return distanceSum
+}
+
+func part2(lines []string) int {
+	var leftList []int
+	var rightList []int
+
+	for _, line := range lines {
 		var leftNumber int
 		var rightNumber int
 		must.NoError(fmt.Sscanf(line, "%d %d", &leftNumber, &rightNumber))
@@ -59,42 +82,4 @@ func part2(f *os.File) int {
 	}
 
 	return similarityScore
-}
-
-func part1(f *os.File) int {
-	s := bufio.NewScanner(f)
-
-	var leftList []int
-	var rightList []int
-
-	for s.Scan() {
-		line := s.Text()
-
-		var leftNumber int
-		var rightNumber int
-		must.NoError(fmt.Sscanf(line, "%d %d", &leftNumber, &rightNumber))
-		leftList = append(leftList, leftNumber)
-		rightList = append(rightList, rightNumber)
-	}
-
-	slices.Sort(leftList)
-	slices.Sort(rightList)
-
-	if len(leftList) != len(rightList) {
-		panic("expected same length")
-	}
-
-	distanceSum := 0
-	for i := 0; i < len(leftList); i++ {
-		distance := leftList[i] - rightList[i]
-
-		// Take the absolute value
-		if distance < 0 {
-			distance = distance * -1
-		}
-
-		distanceSum += distance
-	}
-
-	return distanceSum
 }

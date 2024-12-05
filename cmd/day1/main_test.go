@@ -1,15 +1,14 @@
 package main
 
 import (
-	"github.com/gdejong/advent-of-code-2024/internal/must"
-	"os"
+	"github.com/gdejong/advent-of-code-2024/internal/input"
 	"testing"
 )
 
 func TestPart1(t *testing.T) {
-	f := must.NoError(os.Open("test_input.txt"))
+	lines := input.Content("test_input.txt")
 
-	answer := part1(f)
+	answer := part1(lines)
 
 	if answer != 11 {
 		t.Errorf("wrong answer, got: %d", answer)
@@ -17,9 +16,9 @@ func TestPart1(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	f := must.NoError(os.Open("test_input.txt"))
+	lines := input.Content("test_input.txt")
 
-	answer := part2(f)
+	answer := part2(lines)
 
 	if answer != 31 {
 		t.Errorf("wrong answer, got: %d", answer)

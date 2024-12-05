@@ -9,3 +9,11 @@ func All[T any](ts []T, pred func(T) bool) bool {
 	}
 	return true
 }
+
+// CopyAndRemoveIndex returns a new slice with the given i element removed.
+func CopyAndRemoveIndex(slice []int, i int) []int {
+	newSlice := make([]int, len(slice))
+	copy(newSlice, slice) // make a copy so we do not alter the original slice
+
+	return append(newSlice[:i], newSlice[i+1:]...)
+}

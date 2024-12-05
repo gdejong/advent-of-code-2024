@@ -1,35 +1,24 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"github.com/gdejong/advent-of-code-2024/internal/input"
 	"github.com/gdejong/advent-of-code-2024/internal/math"
-	"github.com/gdejong/advent-of-code-2024/internal/must"
 	"github.com/gdejong/advent-of-code-2024/internal/slices"
-	"io"
-	"os"
 	"strings"
 )
 
 func main() {
-	f := must.NoError(os.Open("cmd/day2/real_input.txt"))
+	lines := input.Content("cmd/day2/real_input.txt")
 
-	fmt.Println(part1(f))
+	fmt.Println(part1(lines))
 
-	// Reset the file so we can it again for part 2
-	must.NoError(f.Seek(0, io.SeekStart))
-
-	fmt.Println(part2(f))
+	fmt.Println(part2(lines))
 }
 
-func part1(f *os.File) int {
-	s := bufio.NewScanner(f)
-
+func part1(lines []string) int {
 	safeCounter := 0
-	for s.Scan() {
-		line := s.Text()
-
+	for _, line := range lines {
 		report := input.ToIntegers(strings.Fields(line))
 
 		if isSafeReport(report) {
@@ -40,20 +29,16 @@ func part1(f *os.File) int {
 	return safeCounter
 }
 
-func part2(f *os.File) int {
-	s := bufio.NewScanner(f)
-
+func part2(lines []string) int {
 	safeCounter := 0
-	for s.Scan() {
-		line := s.Text()
-
+	for _, line := range lines {
 		report := input.ToIntegers(strings.Fields(line))
 
 		// Create all possible options by continually removing one level
 		var reportsToCheck [][]int
 		reportsToCheck = append(reportsToCheck, report)
 		for index := range len(report) {
-			reportsToCheck = append(reportsToCheck, remove(report, index))
+			reportsToCheck = append(reportsToCheck, slices.CopyAndRemoveIndex(report, index))
 		}
 
 		for _, r := range reportsToCheck {
@@ -65,12 +50,6 @@ func part2(f *os.File) int {
 	}
 
 	return safeCounter
-}
-
-func remove(slice []int, s int) []int {
-	s2 := make([]int, len(slice))
-	copy(s2, slice)
-	return append(s2[:s], s2[s+1:]...)
 }
 
 func isSafeReport(levels []int) bool {
