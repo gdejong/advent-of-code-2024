@@ -15,3 +15,13 @@ func TestPart1(t *testing.T) {
 		t.Errorf("wrong answer, got: %d", answer)
 	}
 }
+
+func TestPart2(t *testing.T) {
+	f := must.NoError(os.Open("test_input.txt"))
+
+	answer := part2(f)
+
+	if answer != 4 {
+		t.Errorf("wrong answer, got: %d", answer)
+	}
+}
