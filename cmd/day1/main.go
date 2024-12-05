@@ -3,20 +3,20 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/gdejong/advent-of-code-2024/internal"
+	"github.com/gdejong/advent-of-code-2024/internal/must"
 	"io"
 	"os"
 	"slices"
 )
 
 func main() {
-	f := internal.Must(os.Open("cmd/day1/real_input.txt"))
+	f := must.NoError(os.Open("cmd/day1/real_input.txt"))
 
 	part1answer := part1(f)
 	fmt.Println(part1answer)
 
 	// Reset the file so we can it again for part 2
-	internal.Must(f.Seek(0, io.SeekStart))
+	must.NoError(f.Seek(0, io.SeekStart))
 
 	part2answer := part2(f)
 	fmt.Println(part2answer)
@@ -33,7 +33,7 @@ func part2(f *os.File) int {
 
 		var leftNumber int
 		var rightNumber int
-		internal.Must(fmt.Sscanf(line, "%d %d", &leftNumber, &rightNumber))
+		must.NoError(fmt.Sscanf(line, "%d %d", &leftNumber, &rightNumber))
 		leftList = append(leftList, leftNumber)
 		rightList = append(rightList, rightNumber)
 	}
@@ -72,7 +72,7 @@ func part1(f *os.File) int {
 
 		var leftNumber int
 		var rightNumber int
-		internal.Must(fmt.Sscanf(line, "%d %d", &leftNumber, &rightNumber))
+		must.NoError(fmt.Sscanf(line, "%d %d", &leftNumber, &rightNumber))
 		leftList = append(leftList, leftNumber)
 		rightList = append(rightList, rightNumber)
 	}
